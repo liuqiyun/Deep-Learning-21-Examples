@@ -23,6 +23,7 @@ for i in range(20):
     # 将image_array保存为图片
     # 先用scipy.misc.toimage转换为图像，再调用save直接保存。
     scipy.misc.toimage(image_array, cmin=0.0, cmax=1.0).save(filename)
+    # cv2.imwrite(filename, image_array)  # 使用cv2实现图片与numpy数组的相互转化
 
 print('Please check: %s ' % save_dir)
 

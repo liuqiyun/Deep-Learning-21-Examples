@@ -17,6 +17,10 @@ W = tf.Variable(tf.zeros([784, 10]))
 b = tf.Variable(tf.zeros([10]))
 
 # y=softmax(Wx + b)，y表示模型的输出
+# tf.matmul（）将矩阵a乘以矩阵b，生成a * b
+# tf.nn ：提供神经网络相关操作的支持，包括卷积操作（conv）、
+# 池化操作（pooling）、归一化、loss、分类操作、embedding、RNN、Evaluation
+# tf.nn.softmax: 输入是函数模型， 输出是模型的输出、并做了归一化（各个可能结果的概率值）
 y = tf.nn.softmax(tf.matmul(x, W) + b)
 
 # y_是实际的图像标签，同样以占位符表示。
@@ -30,7 +34,9 @@ y_ = tf.placeholder(tf.float32, [None, 10])
 cross_entropy = tf.reduce_mean(-tf.reduce_sum(y_ * tf.log(y)))
 
 # 有了损失，我们就可以用随机梯度下降针对模型的参数（W和b）进行优化
-train_step = tf.train.GradientDescentOptimizer(0.01).minimize(cross_entropy)
+# 学习率: "学习率 * 梯度" 决定了目标函数的收敛速度
+learning_rate = 0.01
+train_step = tf.train.GradientDescentOptimizer(learning_rate).minimize(cross_entropy)
 
 # 创建一个Session。只有在Session中才能运行优化步骤train_step。
 sess = tf.InteractiveSession()

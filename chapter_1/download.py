@@ -2,6 +2,7 @@
 # 从tensorflow.examples.tutorials.mnist引入模块。这是TensorFlow为了教学MNIST而提前编制的程序
 from tensorflow.examples.tutorials.mnist import input_data
 # 从MNIST_data/中读取MNIST数据。这条语句在数据不存在时，会自动执行下载
+# 该数据解压后得到的文件是 IDX 格式，需要用程序读取解析。 save_pic.py 可以做这件事
 mnist = input_data.read_data_sets("MNIST_data/", one_hot=True)
 
 # 查看训练数据的大小
