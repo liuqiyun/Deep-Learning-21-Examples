@@ -135,3 +135,5 @@ Temporary Items
 .idea
 chapter_1/MNIST_data
 chapter_2/cifar10_data
+chapter_1/dataset
+chapter_1/log
