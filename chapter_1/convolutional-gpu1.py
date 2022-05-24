@@ -1,6 +1,8 @@
 # coding: utf-8
 from __future__ import absolute_import, division, print_function, unicode_literals
 
+import os
+
 import tensorflow as tf
 
 from tensorflow.keras.layers import Dense, Flatten, Conv2D
@@ -8,9 +10,12 @@ from tensorflow.keras import Model
 
 from tensorflow import saved_model
 
-gpus = tf.config.experimental.list_physical_devices('GPU')##获取可用GPU
-for gpu in (gpus):
- tf.config.experimental.set_memory_growth(gpu, True)##设置显存使用方式
+# force using CPU
+os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
+
+# gpus = tf.config.experimental.list_physical_devices('GPU')##获取可用GPU
+# for gpu in (gpus):
+#  tf.config.experimental.set_memory_growth(gpu, True)##设置显存使用方式
 
 (x_train, y_train), (x_test, y_test) = tf.keras.datasets.mnist.load_data()
 x_train, x_test = x_train / 255.0, x_test / 255.0 ##数据预处理归一化
@@ -29,8 +34,10 @@ class MyModel(Model):##cnn网络模型定义
     super(MyModel, self).__init__()
     self.conv1 = Conv2D(32, 3, activation='relu')
     self.flatten = Flatten()
-    self.d1 = Dense(128, activation='relu')
-    self.d2 = Dense(10, activation='softmax')
+    # self.d1 = Dense(128, activation='relu')
+    # self.d2 = Dense(10, activation='softmax')
+    self.d1 = Dense(1, activation='relu')
+    self.d2 = Dense(1, activation='softmax')
   @tf.function
   def call(self, x):
     x = self.conv1(x)
