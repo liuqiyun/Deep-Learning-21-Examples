@@ -1,10 +1,16 @@
+# source code： https://blog.csdn.net/weixin_44035915/article/details/110550730
+
 import numpy as np
 import matplotlib.pyplot as plt
 from tensorflow import keras
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Conv2D, MaxPooling2D, Dense, Dropout, Flatten
+from tensorflow.python.keras.models import Sequential
+from tensorflow.python.keras.layers import Conv2D, MaxPooling2D, Dense, Dropout, Flatten
+from time import time
 
-# https://blog.csdn.net/weixin_44035915/article/details/110550730
+# import os
+# # 强制使用 CPU 时，添加下面一行代码
+# os.environ["CUDA_VISIBLE_DEVICES"] = "-1"  # 强制使用cpu
+
 
 def image(images, row, col):
     im = images[:col * row]
@@ -93,12 +99,17 @@ model.add(Dense(10, activation='softmax'))
 # 打印模型
 print(model.summary())
 
+startTime1 = time()
+
 # 训练配置
 model.compile(loss='sparse_categorical_crossentropy',
               optimizer='adam', metrics=['accuracy'])
 # 开始训练
 history = model.fit(x=x_train, y=y_train, validation_split=0.2,
                     epochs=10, batch_size=200, verbose=2)
+
+t1 = time() - startTime1
+print('训练模型花的时间：', t1)
 
 
 plt.plot(history.history['accuracy'], label='Accuracy')
