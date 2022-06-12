@@ -1,5 +1,11 @@
-# source code： https://blog.csdn.net/weixin_44035915/article/details/110550730
+"""
+CNN implementation in Keras, on MNIST datasets
 
+source code： https://blog.csdn.net/weixin_44035915/article/details/110550730
+
+Tensorflow version: 2.8.0
+Keras version: 2.8.0
+"""
 import numpy as np
 import matplotlib.pyplot as plt
 from tensorflow import keras

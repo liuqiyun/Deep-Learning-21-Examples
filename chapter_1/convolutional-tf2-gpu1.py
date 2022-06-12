@@ -1,3 +1,9 @@
+"""
+CNN implementation in TF, on MNIST datasets
+
+Tensorflow version: 2.8.0
+Keras version: 2.8.0
+"""
 # coding: utf-8
 import tensorflow as tf
 from time import time
@@ -5,7 +11,7 @@ from tensorflow.examples.tutorials.mnist import input_data
 
 
 def weight_variable(shape):
-    initial = tf.truncated_normal(shape, stddev=0.1)
+    initial = tf.compat.v1.truncated_normal(shape, stddev=0.1)
     return tf.Variable(initial)
 
 
@@ -24,18 +30,18 @@ def max_pool_2x2(x):
 
 
 if __name__ == '__main__':
-    config = tf.ConfigProto()
-    config.gpu_options.allow_growth = True
+    config = tf.compat.v1.ConfigProto()
+    # config.gpu_options.allow_growth = True
     # start session
-    with tf.Session(config=config) as sess:
+    with tf.compat.v1.Session(config=config) as sess:
         with tf.device("/job:localhost/replica:0/task:0/device:GPU:0"):
             # with tf.device("/job:localhost/replica:0/task:0/device:GPU:0"):
 
             # 读入数据
             mnist = input_data.read_data_sets("MNIST_data/", one_hot=True)
             # x为训练图像的占位符、y_为训练图像标签的占位符
-            x = tf.placeholder(tf.float32, [None, 784])
-            y_ = tf.placeholder(tf.float32, [None, 10])
+            x = tf.compat.v1.placeholder(tf.float32, [None, 784])
+            y_ = tf.compat.v1.placeholder(tf.float32, [None, 10])
 
             # 将单张图片从784维向量重新还原为28x28的矩阵图片
             x_image = tf.reshape(x, [-1, 28, 28, 1])
@@ -58,7 +64,7 @@ if __name__ == '__main__':
             h_pool2_flat = tf.reshape(h_pool2, [-1, 7 * 7 * 64])
             h_fc1 = tf.nn.relu(tf.matmul(h_pool2_flat, W_fc1) + b_fc1)
             # 使用Dropout，keep_prob是一个占位符，训练时为0.5，测试时为1
-            keep_prob = tf.placeholder(tf.float32)
+            keep_prob = tf.compat.v1.placeholder(tf.float32)
             h_fc1_drop = tf.nn.dropout(h_fc1, keep_prob)
 
             # 把1024维的向量转换成10维，对应10个类别
@@ -70,17 +76,17 @@ if __name__ == '__main__':
             cross_entropy = tf.reduce_mean(
                 tf.nn.softmax_cross_entropy_with_logits(labels=y_, logits=y_conv))
             # 同样定义train_step
-            train_step = tf.train.AdamOptimizer(1e-4).minimize(cross_entropy)
+            train_step = tf.compat.v1.train.AdamOptimizer(1e-4).minimize(cross_entropy)
 
             # 定义测试的准确率
             correct_prediction = tf.equal(tf.argmax(y_conv, 1), tf.argmax(y_, 1))
             accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
 
-            sess.run(tf.global_variables_initializer())
+            sess.run(tf.compat.v1.global_variables_initializer())
             startTime1 = time()
             # 训练20000步
             # orig: 20000
-            for i in range(10000):
+            for i in range(20000):
                 # orig: 50
                 batch = mnist.train.next_batch(50)
                 # 每100步报告一次在验证集上的准确度
