@@ -1,5 +1,8 @@
 # coding:utf-8
 # 从tensorflow.examples.tutorials.mnist引入模块。这是TensorFlow为了教学MNIST而提前编制的程序
+# tf 2.x : from tensorflow.examples.tutorials.mnist import input_data
+# tf 1.x : from tensorflow_core.examples.tutorials.mnist import input_data
+# from tensorflow.examples.tutorials.mnist import input_data
 from tensorflow.examples.tutorials.mnist import input_data
 # 从MNIST_data/中读取MNIST数据。这条语句在数据不存在时，会自动执行下载
 # 该数据解压后得到的文件是 IDX 格式，需要用程序读取解析。 save_pic.py 可以做这件事
